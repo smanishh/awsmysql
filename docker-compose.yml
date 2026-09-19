@@ -5,7 +5,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
 
-    image: aws-mysql:latest
+    image: ghcr.io/smanishh/aws-mysql:latest 
 
     restart: unless-stopped
 
