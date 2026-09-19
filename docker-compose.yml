@@ -1,0 +1,49 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    image: aws-mysql:latest
+
+    restart: unless-stopped
+
+    environment:
+      AWS_PROFILE: default
+      AWS_REGION: ap-south-1
+      DB_URL: "jdbc:mysql://database-1.cfm0oimkyw34.ap-south-1.rds.amazonaws.com:3306/sampledb?useSSL=true&requireSSL=true&serverTimezone=UTC"
+      DB_USERNAME: admin
+      DDL_AUTO: update
+      SHOW_SQL: "false"
+      SERVER_PORT: 8080
+      
+    volumes:
+      - ${USERPROFILE}/.aws:/root/.aws:ro
+
+    expose:
+      - "8080"
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    image: ghcr.io/smanishh/angular-frontend:latest
+
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+
+volumes:
+  mysql_data:
+
+  
+
