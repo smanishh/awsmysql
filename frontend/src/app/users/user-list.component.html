@@ -3,15 +3,15 @@
   <h2>User Management</h2>
 
   @if (errorMessage) {
-    <div class="error-message">
-      {{ errorMessage }}
-    </div>
+  <div class="error-message">
+    {{ errorMessage }}
+  </div>
   }
 
   @if (successMessage) {
-    <div class="success-message">
-      {{ successMessage }}
-    </div>
+  <div class="success-message">
+    {{ successMessage }}
+  </div>
   }
 
   <form #userFormRef="ngForm">
@@ -19,70 +19,37 @@
     <div class="form-group">
       <label for="name">Name</label>
 
-      <input
-        id="name"
-        type="text"
-        name="name"
-        [(ngModel)]="userForm.name"
-        required
-        placeholder="Enter name"
-      />
+      <input id="name" type="text" name="name" [(ngModel)]="userForm.name" required placeholder="Enter name" />
     </div>
 
     <div class="form-group">
       <label for="email">Email</label>
 
-      <input
-        id="email"
-        type="email"
-        name="email"
-        [(ngModel)]="userForm.email"
-        required
-        email
-        placeholder="Enter email"
-      />
+      <input id="email" type="email" name="email" [(ngModel)]="userForm.email" required email
+        placeholder="Enter email" />
     </div>
 
     <div class="form-group">
       <label for="city">City</label>
 
-      <input
-        id="city"
-        type="text"
-        name="city"
-        [(ngModel)]="userForm.city"
-        required
-        placeholder="Enter city"
-      />
+      <input id="city" type="text" name="city" [(ngModel)]="userForm.city" required placeholder="Enter city" />
     </div>
 
     @if (editingUserId === null) {
 
-      <button
-        type="button"
-        (click)="createUser()"
-        [disabled]="saving"
-      >
-        {{ saving ? 'Creating...' : 'Create User' }}
-      </button>
+    <button type="button" (click)="createUser()" [disabled]="saving">
+      {{ saving ? 'Creating...' : 'Create User' }}
+    </button>
 
     } @else {
 
-      <button
-        type="button"
-        (click)="updateUser()"
-        [disabled]="saving"
-      >
-        {{ saving ? 'Updating...' : 'Update User' }}
-      </button>
+    <button type="button" (click)="updateUser()" [disabled]="saving">
+      {{ saving ? 'Updating...' : 'Update User' }}
+    </button>
 
-      <button
-        type="button"
-        (click)="cancelEdit()"
-        [disabled]="saving"
-      >
-        Cancel
-      </button>
+    <button type="button" (click)="cancelEdit()" [disabled]="saving">
+      Cancel
+    </button>
 
     }
 
@@ -96,65 +63,63 @@
 
   @if (loading) {
 
-    <p>Loading users...</p>
+  <p>Loading users...</p>
 
   } @else if (users.length === 0) {
 
-    <p>No users found.</p>
+  <p>No users found.</p>
 
   } @else {
 
-    <table>
+  <table>
 
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>City</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-      <tbody>
+    <tbody>
 
-        @for (user of users; track user.id) {
+      @for (user of users; track user.id) {
 
-          <tr>
+      <tr>
 
-            <td>{{ user.id }}</td>
+        <td>
+          <button routerLink="/tasks">{{ user.id }}</button>
+        </td>
 
-            <td>{{ user.name }}</td>
+        <td>{{ user.name }}</td>
 
-            <td>{{ user.email }}</td>
+        <td>{{ user.email }}</td>
 
-            <td>{{ user.city }}</td>
+        <td>{{ user.city }}</td>
 
-            <td>
+        <td>
+          <button type="button" (click)="openTasks(user)">
+            Tasks
+          </button>
+          <button type="button" (click)="editUser(user)">
+            Edit
+          </button>
 
-              <button
-                type="button"
-                (click)="editUser(user)"
-              >
-                Edit
-              </button>
+          <button type="button" (click)="deleteUser(user.id)">
+            Delete
+          </button>
 
-              <button
-                type="button"
-                (click)="deleteUser(user.id)"
-              >
-                Delete
-              </button>
+        </td>
 
-            </td>
+      </tr>
 
-          </tr>
+      }
 
-        }
+    </tbody>
 
-      </tbody>
-
-    </table>
+  </table>
 
   }
 

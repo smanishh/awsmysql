@@ -1,0 +1,118 @@
+<div class="task-container">
+
+    <div class="task-header">
+
+        <button type="button" class="back-button" (click)="goBack()">
+            ← Back to Users
+        </button>
+
+        <h2>
+            {{ userName }}'s Tasks
+        </h2>
+
+    </div>
+
+    @if (errorMessage) {
+    <div class="error-message">
+        {{ errorMessage }}
+    </div>
+    }
+
+    @if (successMessage) {
+    <div class="success-message">
+        {{ successMessage }}
+    </div>
+    }
+
+    <!-- rest of task page -->
+
+
+    <!-- Add Task -->
+
+    <div class="add-task">
+
+        <input type="text" [(ngModel)]="newTask" placeholder="Enter task" (keyup.enter)="addTask()" />
+
+        <button type="button" (click)="addTask()" [disabled]="saving">
+
+            Add Task
+
+        </button>
+
+    </div>
+
+
+
+    <!-- Loading -->
+
+    @if (loading) {
+
+    <p>Loading tasks...</p>
+
+    }
+
+
+    <!-- Task List -->
+
+    @if (!loading) {
+
+    @if (tasks.length === 0) {
+
+    <p>No tasks found.</p>
+
+    } @else {
+
+    <div class="task-list">
+
+        @for (task of tasks; track task.id) {
+
+        <div class="task-item">
+
+            <!-- Complete / Uncomplete -->
+
+            <input type="checkbox" [checked]="task.completed" (change)="toggleTask(task)" />
+
+
+            <!-- Task title -->
+
+            <div class="task-content">
+
+                <input type="text" [(ngModel)]="task.title" [disabled]="task.completed" />
+
+                @if (task.completed && task.completedAt) {
+                <span class="completed-date">
+                    Completed on
+                    {{ task.completedAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+                }
+
+            </div>
+
+            <!-- Modify -->
+
+            @if (!task.completed) {
+            <button type="button" (click)="updateTask(task)">
+                Update
+            </button>
+            }
+
+
+            <!-- Delete -->
+
+            <button type="button" (click)="deleteTask(task.id)">
+
+                Delete
+
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
+    }
+
+    }
+
+</div>

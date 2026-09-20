@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
@@ -14,6 +15,7 @@ import { UserService } from '../services/user.service';
 export class UserListComponent implements OnInit {
 
   private userService = inject(UserService);
+  private router = inject(Router);
 
   users: User[] = [];
 
@@ -206,6 +208,20 @@ export class UserListComponent implements OnInit {
         this.errorMessage = 'Failed to delete user.';
       }
     });
+  }
+
+    openTasks(user: User): void {
+
+    if (user.id === undefined) {
+
+      return;
+    }
+
+
+    this.router.navigate([
+      '/tasks',
+      user.id
+    ]);
   }
 
   cancelEdit(): void {

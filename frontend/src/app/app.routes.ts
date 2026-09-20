@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { UserListComponent } from './users/user-list.component';
+import { TaskComponent } from './task/task.component';
 
 export const routes: Routes = [
   {
@@ -10,5 +11,9 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UserListComponent
+  },
+  {
+    path: 'tasks/:userId',
+    component: TaskComponent
   }
 ];
